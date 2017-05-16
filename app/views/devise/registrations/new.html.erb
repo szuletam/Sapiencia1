@@ -1,35 +1,73 @@
 <div class="row">
-  <div class="col s4 offset-s4">
-<h2>Registrarse</h2>
-
+  <div class="col s12 m4 offset-m4">
+    <h2>Registrarse</h2>
+  </div>
+</div>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<div class="row">
+  <div class="col s12 m4 offset-m2">
+  <h4>Información Personal</h4>
   <%= devise_error_messages! %>
 
+  <div class="field">
+    <%= f.label :first_name, 'Nombre' %><br />
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name, 'Apellidos' %><br />
+    <%= f.text_field :last_name %>
+  </div>
+  <div class="field">
+    <%= f.label :birthdate, 'Fecha de nacimiento' %><br />
+    <%= f.date_field :birthdate, :class => 'datepicker' %>
+  </div>
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, :class => 'validate valid'  %>
   </div>
-
   <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> caracteres minimo)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.label :job, 'Ocupación' %><br />
+    <%= f.text_field :job%>
   </div>
-
-  <div class="field">
-    <%= f.label "confirmar password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
-
-  <div class="actions">
-    <button class="btn waves-effect waves-light" type="submit" name="action">Registrarse
-      <i class="material-icons right">send</i>
-    </button>
-  </div>
-<% end %>
-    <br>
-<%= render "devise/shared/links" %>
+  <div class="col s12 m4">
+    <h4>Información Vivienda</h4>
+    <div class="field">
+      <%= f.label :state, 'Departamento' %><br />
+      <%= f.text_field :state %>
+    </div>
+    <div class="field">
+      <%= f.label :city, 'Ciudad' %><br />
+      <%= f.text_field :city %>
+    </div>
+    <div class="field">
+      <%= f.label :commune, 'Comuna' %><br />
+      <%= f.text_field :commune %>
+    </div>
+    <div class="field">
+      <%= f.label :neighborhood, 'Barrio' %><br />
+      <%= f.text_field :neighborhood %>
+    </div>
   </div>
 </div>
+<div class="row">
+  <div class="col s12 m4 offset-m2">
+    <div class="actions">
+      <button class="btn waves-effect waves-light" type="submit" name="action">Registrarse
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+    <br>
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  $( document ).ready(function(){
+      $('.datepicker').pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 100 // Creates a dropdown of 15 years to control year
+      });
+  });
+</script>
+
+<% end %>
