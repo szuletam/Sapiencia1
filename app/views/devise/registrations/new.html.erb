@@ -1,4 +1,9 @@
-<div class="row">
+<style>
+  .required{
+    color: #FF0000;
+  }
+</style>
+<span><%= devise_error_messages2! %></span><div class="row">
   <div class="col s12 m4 offset-m4">
     <h2>Registrarse</h2>
   </div>
@@ -7,14 +12,13 @@
 <div class="row">
   <div class="col s12 m4 offset-m2">
   <h4>Información Personal</h4>
-  <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :first_name, 'Nombre' %><br />
+    <%= f.label :first_name, 'Nombre' %><span class="required">*</span><br />
     <%= f.text_field :first_name %>
   </div>
   <div class="field">
-    <%= f.label :last_name, 'Apellidos' %><br />
+    <%= f.label :last_name, 'Apellidos' %><span class="required">*</span><br />
     <%= f.text_field :last_name %>
   </div>
   <div class="field">
@@ -22,32 +26,37 @@
     <%= f.date_field :birthdate, :class => 'datepicker' %>
   </div>
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email %><span class="required">*</span><br />
     <%= f.email_field :email, autofocus: true, :class => 'validate valid'  %>
   </div>
   <div class="field">
     <%= f.label :job, 'Ocupación' %><br />
-    <%= f.text_field :job%>
+    <%= select_tag 'user[job]', options_jobs, {:id => 'user_job', :include_blank => true} %>
   </div>
   </div>
   <div class="col s12 m4">
     <h4>Información Vivienda</h4>
     <div class="field">
-      <%= f.label :state, 'Departamento' %><br />
-      <%= f.text_field :state %>
+      <%= f.label :state_id, 'Departamento' %><br />
+      <%= select_tag 'user[state_id]', options_for_select(State.order('name').collect{|s| [s.name, s.id] }), {:id => 'user_state_id', :onchange => 'load_cities()'} %>
     </div>
     <div class="field">
-      <%= f.label :city, 'Ciudad' %><br />
-      <%= f.text_field :city %>
+      <%= f.label :city_id, 'Ciudad' %><br />
+      <%= select_tag 'user[city_id]', options_for_select(City.order('name').collect{|s| [s.name, s.id] }), {:id => 'user_city_id'} %>
     </div>
     <div class="field">
-      <%= f.label :commune, 'Comuna' %><br />
-      <%= f.text_field :commune %>
+      <%= f.label :commune_id, 'Comuna' %><br />
+      <%= select_tag 'user[commune_id]', options_for_select(Commune.order('name').collect{|s| [s.name, s.id] }), {:id => 'user_commune_id', :onchange => 'load_neighborhoods()'} %>
     </div>
     <div class="field">
-      <%= f.label :neighborhood, 'Barrio' %><br />
-      <%= f.text_field :neighborhood %>
+      <%= f.label :neighborhood_id, 'Barrio' %><br />
+      <%= select_tag 'user[neighborhood_id]', options_for_select(Neighborhood.order('name').collect{|s| [s.name, s.id] }), {:id => 'user_neighborhood_id'} %>
     </div>
+    <div class="field">
+      <%= f.label :address, 'Dirección' %><br />
+      <%= f.text_field :address %>
+    </div>
+
   </div>
 </div>
 <div class="row">
@@ -67,7 +76,15 @@
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 100 // Creates a dropdown of 15 years to control year
       });
+      $('select').material_select();
   });
+
+  function load_cities(){
+      console.log('load_cities');
+  }
+  function load_neighborhoods(){
+      console.log('load_neighborhoods');
+  }
 </script>
 
 <% end %>

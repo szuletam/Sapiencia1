@@ -7,8 +7,9 @@ class RegistrationsController < Devise::RegistrationsController
     generated_password = Devise.friendly_token.first(8)
     resource.password = generated_password
     resource.password_confirmation = generated_password
-    resource.save
-    Devise::Mailer.password_change(resource).deliver
+    if resource.save
+      Devise::Mailer.password_change(resource).deliver
+    end
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
@@ -30,11 +31,11 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:first_name, :last_name, :job, :birthdate, :state, :city, :commune, :neighborhood, :email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :job, :birthdate, :state_id, :city_id, :commune_id, :neighborhood_id, :address, :email, :password, :password_confirmation)
   end
 
   def account_update_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
+    params.require(:user).permit(:first_name, :last_name, :job, :birthdate, :state_id, :city_id, :commune_id, :neighborhood_id, :address, :email, :password, :password_confirmation, :current_password)
   end
 
 end
